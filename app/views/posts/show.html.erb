@@ -1,0 +1,17 @@
+<div id="post-wrapper">
+  <div class="content">
+    <%= @post.created_at.strftime("%b %d, %Y") %>
+    <br/>
+    Dear Asshole <%= @post.asshole_name %>, 
+    <br/>
+    <%= @post.content %>
+    
+    <% if @user_owns_page %>
+    <div class="controls">
+      <%= link_to "Edit", edit_post_path(@post.id) %>
+      <%= link_to "Delete", post_path(@post.id), :method => :delete, :confirm => "Are you sure you want to delete this letter??" %>
+    </div>
+    <% end %>
+    
+  </div>
+</div>

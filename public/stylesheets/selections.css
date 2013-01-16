@@ -1,0 +1,19 @@
+body {
+  background-image: url("http://www.publicdomainpictures.net/pictures/20000/velka/orange-blurred-background.jpg");
+}
+
+#main-content {
+  width: 900px;
+  margin: 30px auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.tab-content {
+  padding: 10px;
+}
+
+.nav {
+  margin-bottom: 0px !important;
+}

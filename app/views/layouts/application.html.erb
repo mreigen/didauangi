@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Đi Đâu Ăn Gì?</title>
+  <%= javascript_include_tag :all %>
+  <%= stylesheet_link_tag :all, :cache => true %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+  <div class="navbar">
+    <div class="">
+      <div class="container">
+      <ul class="nav">
+        <li>
+          <div class="logo brand">
+            <%= link_to posts_path do %>
+              <h1>Đi Đâu Ăn Gì</h1>
+            <% end %>
+          </div>
+        </li>
+      </ul>
+      <ul class="nav nav-pills pull-right">
+      <%
+      if current_user.blank?
+      %>
+        <li>
+        <%= link_to "Log in", "/users/sign_in" %>
+        </li>
+        <li>
+        <%= link_to "Sign up", "/users/sign_up" %>
+        </li>
+      <%
+      else
+      %>
+        <li>
+        <%= link_to "Hey #{current_user.nickname}.", user_path(current_user) %>
+        </li>
+        <li>
+        <%= link_to "Log out", "/users/sign_out" %>
+        </li>
+      <%
+      end
+      %>
+      </ul>
+      </div>
+    </div>
+  </div>
+  <p class="notice flash"><%= flash[:notice] %></p>
+  <p class="error flash"><%= flash[:error] %></p>
+  
+  <div id="main-content">
+    <%= yield %>
+  </div>
+  
+  <script type="text/javascript">
+    <%
+    unless current_user.blank?
+    %>
+    window.currentUser = {
+      id : "<%= current_user.id %>",
+      email: "<%= current_user.email %>"
+    }
+    <% end %>
+  </script>
+  
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36543033-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</body>
+</html>
