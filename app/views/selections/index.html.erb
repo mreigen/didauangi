@@ -6,7 +6,7 @@
       <option>Đà Lạt</option>
       <option>Đà Nẵng</option>
       <option>Hà Nội</option>
-      <option>Hồ Chí Minh (Sài Gòn)</option>
+      <option selected>Hồ Chí Minh (Sài Gòn)</option>
       <option>Huế</option>
       <option>Vũng Tàu</option>
     </select>
@@ -14,26 +14,26 @@
   <div id="location-districts">
     Chọn Quận
     <br/>
-    <select id="districts">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-      <option>6</option>
-      <option>7</option>
-      <option>8</option>
-      <option>9</option>
-      <option>10</option>
-      <option>11</option>
-      <option>12</option>
-      <option>Phú Nhuận</option>
-      <option>Bình Thạnh</option>
-      <option>Tân Bình</option>
-      <option>Gò Vấp</option>
-      <option>Tân Phú</option>
-      <option>Thủ Đức</option>
-      <option>Bình Tân</option>
+    <select id="districts" onchange="javascript: loadPosition(this.value);">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="phu-nhuan">Phú Nhuận</option>
+      <option value="binh-thanh">Bình Thạnh</option>
+      <option value="tan-binh">Tân Bình</option>
+      <option value="go-vap">Gò Vấp</option>
+      <option value="tan-phu">Tân Phú</option>
+      <option value="thu-duc">Thủ Đức</option>
+      <option value="binh-tan">Bình Tân</option>
     </select>
   </div>
 </div>
@@ -51,17 +51,82 @@
 
     <div class="tab-content">
       <div class="tab-pane active" id="tab1">
-        <p>
-          <label class="checkbox inline">
-          <input type="checkbox" id="inlineCheckbox1" value="option1"> Bún
-          </label>
-          <label class="checkbox inline">
-          <input type="checkbox" id="inlineCheckbox2" value="option2"> Cháo
-          </label>
-          <label class="checkbox inline">
-          <input type="checkbox" id="inlineCheckbox3" value="option3"> Chè
-          </label>
-        </p>
+        <div id="cat-selection">
+          <div id="pane1" class="pane">
+            <label class="checkbox">
+            <input type="checkbox" id="bun" value="52"> Bún
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="chao" value="56"> Cháo
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="che" value="35"> Chè
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="banhcanh" value="51"> Bánh Canh
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="banhmi" value="203"> Bánh mì
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="banhngot" value="64"> Bánh ngọt
+            </label>
+          </div>
+          <div id="pane2" class="pane">
+            <label class="checkbox">
+            <input type="checkbox" id="banhcuon" value="53"> Bánh xèo - Bánh cuốn
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="buffet" value="501"> Buffet
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="goicuon" value="63"> Gỏi - Món cuốn
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="haisan" value="50"> Hải sản
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="hutieu" value="49"> Hủ tiếu - Mì - Miến
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="chay" value="817"> Chay
+            </label>
+          </div>
+          <div id="pane3" class="pane">
+            <label class="checkbox">
+            <input type="checkbox" id="nambo" value="5"> Món Nam Bộ
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="monnuong" value="134"> Món nướng - Món quay
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="ngoaitroi" value="814"> Ngoài trời
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="pho" value="48"> Phở
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="quannhau" value="38"> Quán nhậu
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="sangtrong" value="135"> Sang trọng
+            </label>
+          </div>
+          <div id="pane4" class="pane">
+            <label class="checkbox">
+            <input type="checkbox" id="annhanh" value="801"> Thức ăn nhanh
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="annhe" value="529"> Thức ăn nhẹ
+            </label>
+            <label class="checkbox">
+            <input type="checkbox" id="com" value="47"> Cơm
+            </label>
+          </div>
+        </div>
+        <div class="form-buttons-right">
+          <a href="#" class="btn btn-primary disabled">Tìm</a>
+        </div>
       </div>
       <div class="tab-pane" id="tab2">
         <p>Howdy, I'm in Section 2.</p>
@@ -70,4 +135,8 @@
   </div>
 </div>
 
-<iframe width="900" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=182%2F23B+L%C3%AA+V%C4%83n+S%E1%BB%B9,+ph%C6%B0%E1%BB%9Dng+10,+Ho+Chi+Minh+City,+Vietnam&amp;aq=1&amp;oq=182%2F23B+Le+Van+S&amp;sll=10.77665,106.709175&amp;sspn=0.223271,0.345039&amp;ie=UTF8&amp;hq=&amp;hnear=182+L%C3%AA+V%C4%83n+S%E1%BB%B9,+10,+Ph%C3%BA+Nhu%E1%BA%ADn,+Ho+Chi+Minh+City,+Vietnam&amp;t=m&amp;z=14&amp;ll=10.792912,106.670449&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=182%2F23B+L%C3%AA+V%C4%83n+S%E1%BB%B9,+ph%C6%B0%E1%BB%9Dng+10,+Ho+Chi+Minh+City,+Vietnam&amp;aq=1&amp;oq=182%2F23B+Le+Van+S&amp;sll=10.77665,106.709175&amp;sspn=0.223271,0.345039&amp;ie=UTF8&amp;hq=&amp;hnear=182+L%C3%AA+V%C4%83n+S%E1%BB%B9,+10,+Ph%C3%BA+Nhu%E1%BA%ADn,+Ho+Chi+Minh+City,+Vietnam&amp;t=m&amp;z=14&amp;ll=10.792912,106.670449" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+<div id="map_canvas" style="width: 900px; height: 450px"></div>
+
+<script type="text/javascript">
+  window.onload = loadScript;
+</script>

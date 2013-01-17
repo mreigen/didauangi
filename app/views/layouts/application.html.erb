@@ -7,13 +7,12 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
-  <div class="navbar">
     <div class="">
       <div class="container">
       <ul class="nav">
         <li>
-          <div class="logo brand">
-            <%= link_to posts_path do %>
+          <div class="main-logo">
+            <%= link_to :root do %>
               <h1>Đi Đâu Ăn Gì</h1>
             <% end %>
           </div>
@@ -44,7 +43,6 @@
       </ul>
       </div>
     </div>
-  </div>
   <p class="notice flash"><%= flash[:notice] %></p>
   <p class="error flash"><%= flash[:error] %></p>
   

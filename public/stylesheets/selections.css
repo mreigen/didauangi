@@ -28,3 +28,28 @@ body {
   width: 900px;
   float: left;
 }
+
+.main-logo {
+  width: 210px;
+  height: 300px;
+  float: left;
+  position: absolute;
+  left: 0px;
+  top: 54px;
+  padding: 30px;
+}
+
+.pane {
+  width: 200px;
+  position: relative;
+  float: left;
+}
+
+#cat-selection {
+  height: 160px;
+}
+
+.form-buttons-right {
+  float: right;
+  margin-right: 0px;
+}
