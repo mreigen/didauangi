@@ -1,6 +1,6 @@
 defaults: &defaults
  adapter: postgresql
- encoding: unicode
+ encoding: utf8
  username: postgres
  password: 
  host: localhost
