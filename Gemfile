@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.19'
+gem 'rails', '3.2.10'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -12,7 +12,6 @@ gem "devise"
 gem "jquery-rails"
 
 group :test, :development do
-  gem 'scraperwiki'
   gem 'rspec-rails', '2.5.0'
   gem 'rspec',       '2.5.0'
   gem 'seed-fu'

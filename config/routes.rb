@@ -12,7 +12,15 @@ DiDauAnGi::Application.routes.draw do
       match "get_districts" => "districts#get_districts"
     end
   end
-    
+  
+  namespace :api do
+    namespace :v1 do
+      
+      match "get_subcats" => "subcats#get_subcats"
+    end
+  end
+  
+  resources :districts
   resources :users
   resources :posts
   
