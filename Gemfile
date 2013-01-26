@@ -10,6 +10,7 @@ end
 
 gem "devise"
 gem "jquery-rails"
+gem "sprockets", "~> 2.0"
 
 group :test, :development do
   gem 'rspec-rails', '2.5.0'

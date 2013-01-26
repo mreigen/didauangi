@@ -1,0 +1,55 @@
+<div id="location-selection" ng-controller="DistrictsCtrl">
+  <div id="location-cities">
+    Chọn Thành Phố
+    <br/>
+    <select id="cities">
+      <option>Đà Lạt</option>
+      <option>Đà Nẵng</option>
+      <option>Hà Nội</option>
+      <option selected>Hồ Chí Minh (Sài Gòn)</option>
+      <option>Huế</option>
+      <option>Vũng Tàu</option>
+    </select>
+  </div>
+  <div id="location-districts">
+    Chọn Quận
+    <br/>
+    <select ng:model="selected" ng:options="d.name for d in districts | orderBy:'name'" onchange="javascript: loadPosition(this.value);">
+    </select>
+  </div>
+</div>
+
+<div id="type-of-dish-selection" ng-controller="SubCatsCtrl">
+  <div class="tabbable">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a href="#tab1" data-toggle="tab">Việt</a>
+      </li>
+      <li>
+        <a href="#tab2" data-toggle="tab">Nước Ngoài</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="tab1">
+        <div id="cat-selection">
+            <label class="checkbox" ng-repeat="subcat in subcats | orderBy:predecate">
+            <input type="checkbox" id="{{subcat.id}}" value="{{subcat.id}}"> {{subcat.name}}
+            </label>
+        </div>
+        <div class="form-buttons-right">
+          <a href="#" class="btn btn-primary disabled">Tìm</a>
+        </div>
+      </div>
+      <div class="tab-pane" id="tab2">
+        <p>Howdy, I'm in Section 2.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="map_canvas" style="width: 900px; height: 450px"></div>
+
+<script type="text/javascript">
+  window.onload = loadScript;
+</script>

@@ -1,0 +1,58 @@
+body {
+/*  background-image: url("http://www.publicdomainpictures.net/pictures/20000/velka/orange-blurred-background.jpg");
+*/
+}
+
+#main-content {
+  width: 900px;
+  margin: 30px auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 9px 0px #ddd;
+}
+
+.tab-content {
+  padding: 10px;
+}
+
+.nav {
+  margin-bottom: 0px !important;
+}
+
+#location-cities, #location-districts {
+  width: 300px;
+  float: left;
+}
+
+#location-selection {
+  width: 900px;
+  float: left;
+}
+
+.main-logo {
+  width: 210px;
+  height: 300px;
+  float: left;
+  position: absolute;
+  left: 0px;
+  top: 54px;
+  padding: 30px;
+}
+
+.pane {
+  width: 200px;
+  position: relative;
+  float: left;
+}
+
+#cat-selection {
+  height: 160px;
+  -webkit-column-width: 150px;
+  -webkit-column-gap: 20px;
+}
+
+.form-buttons-right {
+  float: right;
+  margin-right: 0px;
+}

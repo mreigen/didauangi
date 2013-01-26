@@ -1,0 +1,61 @@
+/* App Controllers */
+function DistrictsCtrl($scope, $http) {
+  $http.get('/api/v1/get_districts.json?city_id=ho-chi-minh&fields=id,name').
+  success(function(data) {
+    $scope.districts = data;
+  });
+  //$scope.districts = Districts.get({city_id: "ho-chi-minh"});
+  
+  setTimeout(function() {
+    console.log($scope.districts);
+  }, 2000);
+};
+
+function SubCatsCtrl($scope, $http) {
+  $http.get('/api/v1/get_subcats.json?main_cat_id=1').
+  success(function(data) {
+    $scope.subcats = data;
+  });
+  
+  $scope.predecate = function(subcat) {
+    return subcat.name;
+  }
+};
+
+//DistrictsCtrl.$inject = ['Districts'];
+/*
+function GalleriesCtrl(Galleries, Photographers, $routeParams) {
+  this.photographer = Photographers.get({ photographer_id: $routeParams.photographer_id });
+  this.galleries = Galleries.index({ photographer_id: $routeParams.photographer_id });
+}
+GalleriesCtrl.$inject = ['Galleries', 'Photographers', '$routeParams'];
+
+function PhotosCtrl(Photos, Galleries, Photographers, SelectedPhotos, $routeParams) {
+  var self = this;
+
+  self.photographer = Photographers.get({ photographer_id: $routeParams.photographer_id });
+  self.gallery = Galleries.get({ photographer_id: $routeParams.photographer_id, gallery_id: $routeParams.gallery_id });
+  self.photos = Photos.index({ photographer_id: $routeParams.photographer_id, gallery_id: $routeParams.gallery_id });
+  self.selected_photos = SelectedPhotos.index();
+
+
+  self.selectPhoto = function(photo) {
+    var selected_photo = new SelectedPhotos({ selected_photo: { photo_id: photo.id } });
+    selected_photo.$create(function() {
+      self.selected_photos.push(selected_photo);
+    });
+  }
+
+  self.deleteSelectedPhoto = function(selected_photo) {
+    angular.Array.remove(self.selected_photos, selected_photo);
+    selected_photo.$destroy({ selected_photo_id: selected_photo.id });
+  }
+
+  self.saveSelectedPhoto = function(selected_photo) {
+    selected_photo.$update({ selected_photo_id: selected_photo.id });
+    $('input').blur();
+  }
+
+}
+PhotosCtrl.$inject = ['Photos', 'Galleries', 'Photographers', 'SelectedPhotos', '$routeParams'];
+*/

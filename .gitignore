@@ -7,12 +7,7 @@
 
 *.lock
 
-*.log
+.DS_Store
 
-*.log
-
-*.pid
-
-*.log
-
-*.pid
+tmp/*
+tmp/pid/*

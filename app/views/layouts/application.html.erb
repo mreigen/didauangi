@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="didauangi">
 <head>
+  <meta charset="utf-8">
   <title>Đi Đâu Ăn Gì?</title>
-  <%= javascript_include_tag :all %>
-  <%= stylesheet_link_tag :all, :cache => true %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
   <%= csrf_meta_tag %>
 </head>
 <body>
+  <script src="/javascripts/angular.min.js" ng:autobind></script>
+  <%= javascript_include_tag "application",
+              "/javascripts/bootstrap.min.js" %>
+  
+  
     <div class="">
       <div class="container">
       <ul class="nav">
@@ -47,32 +52,11 @@
   <p class="error flash"><%= flash[:error] %></p>
   
   <div id="main-content">
-    <%= yield %>
+    <ng-view></ng-view>
   </div>
   
   <script type="text/javascript">
-    <%
-    unless current_user.blank?
-    %>
-    window.currentUser = {
-      id : "<%= current_user.id %>",
-      email: "<%= current_user.email %>"
-    }
-    <% end %>
-  </script>
-  
-  <script type="text/javascript">
-
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-36543033-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-
+    loadScript();
   </script>
 </body>
 </html>

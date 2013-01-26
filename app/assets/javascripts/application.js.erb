@@ -1,0 +1,9 @@
+//= require jquery
+//= require controllers
+//= require maps
+
+angular.module("didauangi",[]).
+config(["$routeProvider", function($routeProvider) {
+  $routeProvider.when("/", {templateUrl: "<%= asset_path('selection.html') %>", controller: DistrictsCtrl}).
+  otherwise({redirectTo: "/"});
+}]);
