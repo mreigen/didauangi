@@ -14,7 +14,7 @@
   <div id="location-districts">
     Chọn Quận
     <br/>
-    <select ng:model="selectedDistrict" ng:options="d.id as d.name for d in districts | orderBy:'name'" ng-init="selectedDistrict=1" onchange="javascript: loadPosition(this.value);">
+    <select ng:model="selectedDistrict" ng:options="d.id as d.name for d in districts | orderBy:'name'" ng-init="selectedDistrict=1" ng-change="loadPosition(selectedDistrict)">
     </select>
   </div>
 </div>

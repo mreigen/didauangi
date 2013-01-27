@@ -1,9 +1,21 @@
 /* App Controllers */
 function DistrictsCtrl($scope, $http) {
-  $http.get('/api/v1/get_districts.json?city_id=ho-chi-minh&fields=id,name').
+  $http.get('/api/v1/get_districts.json?city_id=ho-chi-minh&fields=id,name,lat,lng,zoom').
   success(function(data) {
     $scope.districts = data;
   });
+  
+  $scope.loadPosition = function(value) {
+    district = jQuery.grep($scope.districts, function(e) {
+      return e["id"] == value;
+    })[0];
+    console.log(district);
+    var lat = district.lat.toString();
+    var lng = district.lng.toString();
+    var zoom = district.zoom.toString();
+    loadMap(lat, lng, zoom);
+  }
+
 };
 
 function CatsCtrl($scope, $http) {

@@ -5,6 +5,9 @@ class CreateDistrictsTable < ActiveRecord::Migration
       t.string :name, :null => false
       t.string :city_id, :null => false
       t.string :district_type, :null => false, :default => "Quan"
+      t.float  :lat, :null=>false
+      t.float  :lng, :null=>false
+      t.integer :zoom, :null => false, :default=>15
       
       t.timestamps
     end
