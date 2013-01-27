@@ -4,18 +4,29 @@ function DistrictsCtrl($scope, $http) {
   success(function(data) {
     $scope.districts = data;
   });
-  //$scope.districts = Districts.get({city_id: "ho-chi-minh"});
-  
-  setTimeout(function() {
-    console.log($scope.districts);
-  }, 2000);
 };
 
-function SubCatsCtrl($scope, $http) {
-  $http.get('/api/v1/get_subcats.json?main_cat_id=1').
+function CatsCtrl($scope, $http) {
+  $http.get('/api/v1/get_maincats.json').
   success(function(data) {
-    $scope.subcats = data;
+    $scope.maincats = data;
+    jQuery.each($scope.maincats, function(i, _maincat) {
+      $http.get('/api/v1/get_subcats.json?main_cat_id=' + _maincat["id"]).
+      success(function(subcatData) {
+        _maincat.subcats = subcatData;
+        // for tabbable to work with angularjs
+        if (_maincat["id"]==1) _maincat.selected = true;
+      });
+    });
   });
+  
+  // for tabbable to work with angularjs
+  $scope.select = function(_maincat) {
+    angular.forEach($scope.maincats, function(_maincat) {
+      _maincat.selected = false;
+    });
+    _maincat.selected = true;
+  }
   
   $scope.predecate = function(subcat) {
     return subcat.name;

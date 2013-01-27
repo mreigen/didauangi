@@ -16,7 +16,8 @@ DiDauAnGi::Application.routes.draw do
   namespace :api do
     namespace :v1 do
       
-      match "get_subcats" => "subcats#get_subcats"
+      match "get_subcats"     => "subcats#get_subcats"
+      match "get_maincats"    => "maincats#get_maincats"
     end
   end
   

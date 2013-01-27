@@ -9,5 +9,13 @@
 
 .DS_Store
 
+db/schema.rb
+
 tmp/*
 tmp/pid/*
+
+tmp/pids/server.pid
+
+tmp/pids/server.pid
+
+db/schema.rb

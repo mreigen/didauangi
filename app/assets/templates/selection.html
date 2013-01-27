@@ -14,35 +14,29 @@
   <div id="location-districts">
     Chọn Quận
     <br/>
-    <select ng:model="selected" ng:options="d.name for d in districts | orderBy:'name'" onchange="javascript: loadPosition(this.value);">
+    <select ng:model="selectedDistrict" ng:options="d.id as d.name for d in districts | orderBy:'name'" ng-init="selectedDistrict=1" onchange="javascript: loadPosition(this.value);">
     </select>
   </div>
 </div>
 
-<div id="type-of-dish-selection" ng-controller="SubCatsCtrl">
+<div id="type-of-dish-selection" ng-controller="CatsCtrl">
   <div class="tabbable">
     <ul class="nav nav-tabs">
-      <li class="active">
-        <a href="#tab1" data-toggle="tab">Việt</a>
-      </li>
-      <li>
-        <a href="#tab2" data-toggle="tab">Nước Ngoài</a>
+      <li ng-repeat="maincat in maincats" ng-class="{active: maincat.selected}">
+        <a href="#tab-{{maincat.id}}" data-toggle="tab" ng-click="select(maincat)">{{maincat.name}}</a>
       </li>
     </ul>
 
-    <div class="tab-content">
-      <div class="tab-pane active" id="tab1">
+    <div class="tab-content" ng-repeat="maincat in maincats">
+      <div class="tab-pane" id="tab-{{maincat.id}}" ng-class="{active: maincat.selected}">
         <div id="cat-selection">
-            <label class="checkbox" ng-repeat="subcat in subcats | orderBy:predecate">
+            <label class="checkbox" ng-repeat="subcat in maincat.subcats | orderBy:'name'">
             <input type="checkbox" id="{{subcat.id}}" value="{{subcat.id}}"> {{subcat.name}}
             </label>
         </div>
         <div class="form-buttons-right">
           <a href="#" class="btn btn-primary disabled">Tìm</a>
         </div>
-      </div>
-      <div class="tab-pane" id="tab2">
-        <p>Howdy, I'm in Section 2.</p>
       </div>
     </div>
   </div>
