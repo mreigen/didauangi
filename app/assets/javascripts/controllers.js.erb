@@ -1,30 +1,20 @@
 /* App Controllers */
-function DistrictsCtrl($scope, $http) {
+function SelectionsCtrl($scope, $http) {
   $http.get('/api/v1/get_districts.json?city_id=ho-chi-minh&fields=id,name,lat,lng,zoom').
   success(function(data) {
     $scope.districts = data;
+    //$scope.selectDistrict();
   });
-  
-  $scope.loadPosition = function(value) {
-    district = jQuery.grep($scope.districts, function(e) {
-      return e["id"] == value;
-    })[0];
-    console.log(district);
-    var lat = district.lat.toString();
-    var lng = district.lng.toString();
-    var zoom = district.zoom.toString();
-    loadMap(lat, lng, zoom);
-  }
 
-};
-
-function CatsCtrl($scope, $http) {
   $http.get('/api/v1/get_maincats.json').
   success(function(data) {
     $scope.maincats = data;
     jQuery.each($scope.maincats, function(i, _maincat) {
+      // get all subcats belong to that main cat
       $http.get('/api/v1/get_subcats.json?main_cat_id=' + _maincat["id"]).
       success(function(subcatData) {
+        // this is to use with cat-selection's checkboxes ng-model
+        subcatData.checked = false;
         _maincat.subcats = subcatData;
         // for tabbable to work with angularjs
         if (_maincat["id"]==1) _maincat.selected = true;
@@ -33,15 +23,71 @@ function CatsCtrl($scope, $http) {
   });
   
   // for tabbable to work with angularjs
-  $scope.select = function(_maincat) {
+  $scope.selectMainCat = function(_maincat) {
     angular.forEach($scope.maincats, function(_maincat) {
       _maincat.selected = false;
     });
     _maincat.selected = true;
   }
   
+  $scope.selectDistrict = function() {
+    var district = jQuery.grep($scope.districts, function(e) {
+      return e["id"] == $scope.selectedDistrictId;
+    })[0];
+    // set 'global' district var
+    $scope.selectedDistrict = district;
+    console.log($scope.selectedDistrict);
+    $scope.loadPosition($scope.selectedDistrict, $scope.selectedSubCats);
+  }
+  
+  $scope.selectedDistrict = {}
+  $scope.selectedSubCats = [];
+  $scope.selectedPlaces = [];
+  
+  $scope.selectSubCat = function(_subcat) {
+    if (_subcat.checked == false) {
+      // remove subcat from the selected sub cat array
+      $scope.selectedSubCats = jQuery.grep($scope.selectedSubCats,
+        function(selectedSubCat) {
+          return selectedSubCat.id != _subcat.id;
+        }
+      );
+    } else {
+      $scope.selectedSubCats.push(_subcat);
+    }
+    console.log($scope.selectedSubCats);
+    console.log($scope.selectedDistrict);
+    $scope.loadPosition($scope.selectedDistrict, $scope.selectedSubCats);
+  }
+  
   $scope.predecate = function(subcat) {
     return subcat.name;
+  }
+  
+  $scope.loadPosition = function(district, subcats) {
+    console.log("district");
+    console.log(district);
+    console.log("subcats");
+    console.log(subcats);
+    if ((typeof district.id === "undefined") || (subcats === []))
+      return;
+    // get district's info
+    var lat = district.lat.toString();
+    var lng = district.lng.toString();
+    var zoom = district.zoom.toString();
+    
+    // get places' info
+    $http.get("/api/v1/get_places.json?district_id=" + district.id + "&sub_cat_id=" + subcats[0].id + "&fields=address,id,city_id,phone").
+    success(function(placesData) {
+      console.log("placesData");
+      console.log(placesData);
+      $scope.selectedPlaces = placesData;
+      
+      console.log("$scope.selectedPlaces");
+      console.log($scope.selectedPlaces);
+
+      loadMap($scope.selectedPlaces, lat, lng, zoom);
+    });
   }
 };
 

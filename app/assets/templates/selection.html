@@ -1,49 +1,57 @@
-<div id="location-selection" ng-controller="DistrictsCtrl">
-  <div id="location-cities">
-    Chọn Thành Phố
-    <br/>
-    <select id="cities">
-      <option>Đà Lạt</option>
-      <option>Đà Nẵng</option>
-      <option>Hà Nội</option>
-      <option selected>Hồ Chí Minh (Sài Gòn)</option>
-      <option>Huế</option>
-      <option>Vũng Tàu</option>
-    </select>
+<div ng-controller="SelectionsCtrl">
+  <div id="location-selection">
+    <div id="location-cities">
+      Chọn Thành Phố
+      <br/>
+      <select id="cities">
+        <option>Đà Lạt</option>
+        <option>Đà Nẵng</option>
+        <option>Hà Nội</option>
+        <option selected>Hồ Chí Minh (Sài Gòn)</option>
+        <option>Huế</option>
+        <option>Vũng Tàu</option>
+      </select>
+    </div>
+    <div id="location-districts">
+      Chọn Quận
+      <br/>
+      <select ng:model="selectedDistrictId" 
+        ng:options="d.id as d.name for d in districts | orderBy:'name'" 
+        ng-init="selectedDistrictId=1" 
+        ng-change="selectDistrict()">
+      </select>
+    </div>
   </div>
-  <div id="location-districts">
-    Chọn Quận
-    <br/>
-    <select ng:model="selectedDistrict" ng:options="d.id as d.name for d in districts | orderBy:'name'" ng-init="selectedDistrict=1" ng-change="loadPosition(selectedDistrict)">
-    </select>
-  </div>
-</div>
 
-<div id="type-of-dish-selection" ng-controller="CatsCtrl">
-  <div class="tabbable">
-    <ul class="nav nav-tabs">
-      <li ng-repeat="maincat in maincats" ng-class="{active: maincat.selected}">
-        <a href="#tab-{{maincat.id}}" data-toggle="tab" ng-click="select(maincat)">{{maincat.name}}</a>
-      </li>
-    </ul>
+  <div id="type-of-dish-selection">
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li ng-repeat="maincat in maincats" ng-class="{active: maincat.selected}">
+          <a href="#tab-{{maincat.id}}" data-toggle="tab" ng-click="selectMainCat(maincat)">{{maincat.name}}</a>
+        </li>
+      </ul>
 
-    <div class="tab-content" ng-repeat="maincat in maincats">
-      <div class="tab-pane" id="tab-{{maincat.id}}" ng-class="{active: maincat.selected}">
-        <div id="cat-selection">
-            <label class="checkbox" ng-repeat="subcat in maincat.subcats | orderBy:'name'">
-            <input type="checkbox" id="{{subcat.id}}" value="{{subcat.id}}"> {{subcat.name}}
-            </label>
-        </div>
-        <div class="form-buttons-right">
-          <a href="#" class="btn btn-primary disabled">Tìm</a>
+      <div class="tab-content" ng-repeat="maincat in maincats">
+        <div class="tab-pane" id="tab-{{maincat.id}}" ng-class="{active: maincat.selected}">
+          <div id="cat-selection">
+              <label class="checkbox" ng-repeat="subcat in maincat.subcats | orderBy:'name'">
+              <input type="checkbox" id="{{subcat.id}}" 
+                value="{{subcat.id}}" 
+                ng-model="subcat.checked"
+                ng-click="selectSubCat(subcat)"> {{subcat.name}}
+              </label>
+          </div>
+          <div class="form-buttons-right">
+            <a href="#" class="btn btn-primary disabled">Tìm</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div id="map_canvas" style="width: 900px; height: 450px"></div>
+
 </div>
-
-<div id="map_canvas" style="width: 900px; height: 450px"></div>
-
 <script type="text/javascript">
   window.onload = loadScript;
 </script>

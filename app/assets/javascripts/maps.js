@@ -14,11 +14,36 @@ function loadScript() {
   document.head.appendChild(script);
 }
 
-function loadMap(lat, long, zoomLevel) {
+function loadMap(placesData, lat, long, zoomLevel) {
+  console.log("in loadMap");
+  console.log(placesData);
+  
   var mapOptions = {
-    zoom: parseInt(zoomLevel),
+    //zoom: parseInt(zoomLevel),
+    zoom: 13,
     center: new google.maps.LatLng(lat, long),
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
   var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+  
+  // creating markers
+  // get place's lat and lng
+  jQuery.ajax({
+    method: "get",
+    url: "http://maps.googleapis.com/maps/api/geocode/json?address=" + placesData[0].address + "&sensor=true",
+    success: function(data) {
+      var lat = data.results[0].geometry.location.lat;
+      var lng = data.results[0].geometry.location.lng;
+      placePos = new google.maps.LatLng(lat,lng);
+      console.log(placePos);
+      var marker = new google.maps.Marker({
+          position: placePos,
+          map: map,
+          draggable: true,
+          title: placesData[0].address,
+          type: 'point'
+      });
+      
+    }
+  })
 }
