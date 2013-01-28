@@ -33,10 +33,24 @@ function loadMap(placesData, lat, long, zoomLevel) {
 }
 
 var infoWindows = [];
+var markerArray = [];
+
+function closeAllInfoWindows() {
+  jQuery.each(infoWindows, function(index, value) {
+    infoWindows[index].close();
+  });
+}
+
+function clearAllMarkers() {
+  jQuery.each(markerArray, function(index, value) {
+    markerArray[index].setMap(null);
+  });
+}
 
 function createMarker(placeData, map) {
   var address = placeData.address;
   var placeName = placeData.name;
+  var phone = placeData.phone;
   
   var contentString = '<div id="content">'+
       '<div id="siteNotice">'+
@@ -44,8 +58,7 @@ function createMarker(placeData, map) {
       '<h2 id="firstHeading" class="firstHeading">' + placeName + '</h2>'+
       '<div id="bodyContent">'+
       '<p>' + address + '</p>'+
-      '<p>Attribution: Uluru, <a href="http://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-      'http://en.wikipedia.org/w/index.php?title=Uluru</a> (last visited June 22, 2009).</p>'+
+      '<p> Phone: ' + phone+ '</p>'+
       '</div>'+
       '</div>';
 
@@ -60,6 +73,12 @@ function createMarker(placeData, map) {
     method: "get",
     url: "http://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&sensor=true",
     success: function(data) {
+      if (typeof data.results[0] === "undefined") {
+        console.log("failed retrieving address:");
+        console.log(data.results);
+        return;
+      }
+      
       var lat = data.results[0].geometry.location.lat;
       var lng = data.results[0].geometry.location.lng;
       placePos = new google.maps.LatLng(lat,lng);
@@ -70,15 +89,14 @@ function createMarker(placeData, map) {
           title: address,
           type: 'point'
       });
-     
+      // add to the marker array
+      markerArray.push(marker);
+      
       google.maps.event.addListener(marker, 'click', function() {
         // close all the opened info windows
-        jQuery.each(infoWindows, function(index, value) {
-          infoWindows[index].close();
-        });
+        closeAllInfoWindows();
         infowindow.open(map,marker);
-      });
-       
+      }); 
     }
   });
 }

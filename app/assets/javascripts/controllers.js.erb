@@ -30,12 +30,16 @@ function SelectionsCtrl($scope, $http) {
     _maincat.selected = true;
   }
   
-  $scope.selectDistrict = function() {
+  var getDistrictById = function(id) {
     var district = jQuery.grep($scope.districts, function(e) {
-      return e["id"] == $scope.selectedDistrictId;
+      return e["id"] == id;
     })[0];
+    return district;
+  };
+  
+  $scope.selectDistrict = function() {
     // set 'global' district var
-    $scope.selectedDistrict = district;
+    $scope.selectedDistrict = getDistrictById($scope.selectedDistrictId);
     console.log($scope.selectedDistrict);
     $scope.loadPosition($scope.selectedDistrict, $scope.selectedSubCats);
   }
@@ -55,8 +59,13 @@ function SelectionsCtrl($scope, $http) {
     } else {
       $scope.selectedSubCats.push(_subcat);
     }
+    if (jQuery.isEmptyObject($scope.selectedDistrict)) {
+      $scope.selectedDistrict = getDistrictById($scope.selectedDistrictId);
+    }
+    
     console.log($scope.selectedSubCats);
     console.log($scope.selectedDistrict);
+    
     $scope.loadPosition($scope.selectedDistrict, $scope.selectedSubCats);
   }
   
@@ -66,11 +75,14 @@ function SelectionsCtrl($scope, $http) {
   
   $scope.loadPosition = function(district, subcats) {
     console.log("district");
-    console.log(district);
+    console.log(jQuery.isEmptyObject(district));
     console.log("subcats");
     console.log(subcats);
-    if ((typeof district.id === "undefined") || (subcats === []))
+    if ((typeof district === "undefined") || (jQuery.isEmptyObject(district)) || (subcats.length === 0)) {
+      closeAllInfoWindows();
+      clearAllMarkers();
       return;
+    }
     // get district's info
     var lat = district.lat.toString();
     var lng = district.lng.toString();
