@@ -17,7 +17,7 @@ class Place < ActiveRecord::Base
     place_ids = PlaceCategoryRel.find(
       :all,
       :conditions=>"sub_category_id = #{sc_id}").
-      collect{|rel| rel[:id]}
+      collect{|rel| rel[:place_id]}
     self.scoped.where("id IN ( ? )", place_ids) unless place_ids.blank?
   }
 end

@@ -77,15 +77,9 @@ function SelectionsCtrl($scope, $http) {
     var zoom = district.zoom.toString();
     
     // get places' info
-    $http.get("/api/v1/get_places.json?district_id=" + district.id + "&sub_cat_id=" + subcats[0].id + "&fields=address,id,city_id,phone").
+    $http.get("/api/v1/get_places.json?district_id=" + district.id + "&sub_cat_id=" + subcats[0].id + "&fields=name,address,id,city_id,phone").
     success(function(placesData) {
-      console.log("placesData");
-      console.log(placesData);
       $scope.selectedPlaces = placesData;
-      
-      console.log("$scope.selectedPlaces");
-      console.log($scope.selectedPlaces);
-
       loadMap($scope.selectedPlaces, lat, lng, zoom);
     });
   }
