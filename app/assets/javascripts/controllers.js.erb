@@ -89,7 +89,13 @@ function SelectionsCtrl($scope, $http) {
     var zoom = district.zoom.toString();
     
     // get places' info
-    $http.get("/api/v1/get_places.json?district_id=" + district.id + "&sub_cat_id=" + subcats[0].id + "&fields=name,address,id,city_id,phone").
+    subcatIds = []
+    jQuery.each(subcats, function(index, value) {
+      subcatIds.push(subcats[index].id);
+    });
+    // make it an array with "," as delim
+    subcatIds = subcatIds.join(",")
+    $http.get("/api/v1/get_places.json?district_id=" + district.id + "&sub_cat_ids=" + subcatIds + "&fields=name,address,id,city_id,phone").
     success(function(placesData) {
       $scope.selectedPlaces = placesData;
       loadMap($scope.selectedPlaces, lat, lng, zoom);

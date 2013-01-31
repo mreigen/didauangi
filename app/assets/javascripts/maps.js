@@ -20,7 +20,7 @@ function loadMap(placesData, lat, long, zoomLevel) {
   
   var mapOptions = {
     //zoom: parseInt(zoomLevel),
-    zoom: 13,
+    zoom: 14,
     center: new google.maps.LatLng(lat, long),
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
