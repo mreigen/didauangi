@@ -97,8 +97,15 @@ function SelectionsCtrl($scope, $http) {
     subcatIds = subcatIds.join(",")
     $http.get("/api/v1/get_places.json?district_id=" + district.id + "&sub_cat_ids=" + subcatIds + "&fields=name,address,id,city_id,phone").
     success(function(placesData) {
-      $scope.selectedPlaces = placesData;
-      loadMap($scope.selectedPlaces, lat, lng, zoom);
+      clearAllMarkers();
+      if (placesData.length === 0) {
+        //jQuery("#notice-box").show();
+        alert("No results!");
+      } else {
+        //jQuery("#notice-box").hide();
+        $scope.selectedPlaces = placesData;
+        loadMap($scope.selectedPlaces, lat, lng, zoom);
+      }
     });
   }
 };

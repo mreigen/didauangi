@@ -12,16 +12,17 @@ module Api
         places = []
         sub_cat_ids.each do |sub_id|
           _result = Place.by_district_id(params[:district_id]).by_sub_cat_id(sub_id)          
-          next if _result.empty?
+          respond_with [] and return if _result.empty?
           
           if places.empty?
             places << _result
           else
             places.flatten!
             places = [places.to_a, _result.to_a].reduce(:&)
+            respond_with [] and return if places.blank?
           end
         end
-        
+
         places.flatten!
         places.uniq! unless places.blank?
         respond_with JSON.generate places.as_json(:only => fields)

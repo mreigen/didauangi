@@ -17,7 +17,7 @@
       <br/>
       <select ng:model="selectedDistrictId" 
         ng:options="d.id as d.name for d in districts | orderBy:'name'" 
-        ng-init="selectedDistrictId=1" 
+        ng-init="selectedDistrictId=2" 
         ng-change="selectDistrict()">
       </select>
     </div>
@@ -44,6 +44,11 @@
           <div class="form-buttons-right">
             <a href="#" class="btn btn-primary disabled">Tìm</a>
           </div>
+          
+          <div id="notice-box">
+            YO
+          </div>
+          
         </div>
       </div>
     </div>
