@@ -44,11 +44,16 @@
           <div class="form-buttons-right">
             <a href="#" class="btn btn-primary disabled">Tìm</a>
           </div>
-          
-          <div id="notice-box">
-            YO
-          </div>
-          
+        </div>
+      </div>
+      <div class="tab-content">
+        <div id="feature-selection">
+          <label class="checkbox" ng-repeat="feature in features | orderBy:'name'">
+          <input type="checkbox" id="{{feature.id}}" 
+            value="{{feature.id}}" 
+            ng-model="feature.checked"
+            ng-click="selectFeature(feature)"> {{feature.name}}
+          </label>
         </div>
       </div>
     </div>

@@ -9,9 +9,23 @@ module Api
         render :text => "missing field name(s)" and return if params[:fields].blank?
         sub_cat_ids = params[:sub_cat_ids].blank? ? [] : params[:sub_cat_ids].split(",")
         fields = params[:fields].blank? ? [] : params[:fields].split(",")
+        feature_ids = params[:feature_ids].blank? ? [] : params[:feature_ids].split(",")
+        
         places = []
         sub_cat_ids.each do |sub_id|
           _result = Place.by_district_id(params[:district_id]).by_sub_cat_id(sub_id)          
+          respond_with [] and return if _result.empty?
+          
+          unless _result.empty?
+            places << _result
+          end
+          
+          places.flatten!
+          places.uniq! unless places.blank?
+        end
+
+        feature_ids.each do |f_id|
+          _result = Place.by_district_id(params[:district_id]).by_feature_id(f_id)          
           respond_with [] and return if _result.empty?
           
           if places.empty?
@@ -22,7 +36,7 @@ module Api
             respond_with [] and return if places.blank?
           end
         end
-
+        
         places.flatten!
         places.uniq! unless places.blank?
         respond_with JSON.generate places.as_json(:only => fields)

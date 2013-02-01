@@ -19,6 +19,7 @@ DiDauAnGi::Application.routes.draw do
       match "get_subcats"     => "subcats#get_subcats"
       match "get_maincats"    => "maincats#get_maincats"
       match "get_places"      => "places#get_places"
+      match "get_features"    => "features#get_features"
     end
   end
   

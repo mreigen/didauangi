@@ -20,4 +20,13 @@ class Place < ActiveRecord::Base
       collect{|rel| rel[:place_id]}
     self.scoped.where("id IN ( ? )", place_ids) unless place_ids.blank?
   }
+  
+  scope :by_feature_id, lambda { |f_id|
+    return [] if f_id.blank?
+    place_ids = PlaceFeatureRel.find(
+      :all,
+      :conditions=>"feature_id = #{f_id}").
+      collect{|rel| rel[:place_id]}
+    self.scoped.where("id IN ( ? )", place_ids) unless place_ids.blank?
+  }
 end

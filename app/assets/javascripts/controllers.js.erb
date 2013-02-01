@@ -1,11 +1,21 @@
 /* App Controllers */
 function SelectionsCtrl($scope, $http) {
+  $scope.maincats = [];
+  $scope.districts = [];
+  $scope.features = [];
+  
+  $scope.selectedDistrict = {}
+  $scope.selectedSubCats = [];
+  $scope.selectedPlaces = [];
+  $scope.selectedFeatures = [];
+  
+  // get all districts
   $http.get('/api/v1/get_districts.json?city_id=ho-chi-minh&fields=id,name,lat,lng,zoom').
   success(function(data) {
     $scope.districts = data;
-    //$scope.selectDistrict();
   });
 
+  // get all main cats
   $http.get('/api/v1/get_maincats.json').
   success(function(data) {
     $scope.maincats = data;
@@ -22,13 +32,18 @@ function SelectionsCtrl($scope, $http) {
     });
   });
   
+  $http.get('api/v1/get_features.json').
+  success(function(data) {
+    $scope.features = data;
+  });
+  
   // for tabbable to work with angularjs
   $scope.selectMainCat = function(_maincat) {
     angular.forEach($scope.maincats, function(_maincat) {
       _maincat.selected = false;
     });
     _maincat.selected = true;
-  }
+  };
   
   var getDistrictById = function(id) {
     var district = jQuery.grep($scope.districts, function(e) {
@@ -43,10 +58,6 @@ function SelectionsCtrl($scope, $http) {
     console.log($scope.selectedDistrict);
     $scope.loadPosition($scope.selectedDistrict, $scope.selectedSubCats);
   }
-  
-  $scope.selectedDistrict = {}
-  $scope.selectedSubCats = [];
-  $scope.selectedPlaces = [];
   
   $scope.selectSubCat = function(_subcat) {
     if (_subcat.checked == false) {
@@ -69,15 +80,33 @@ function SelectionsCtrl($scope, $http) {
     $scope.loadPosition($scope.selectedDistrict, $scope.selectedSubCats);
   }
   
+  $scope.selectFeature = function(_feature) {
+    if (_feature.checked == false) {
+      // remove subcat from the selected sub cat array
+      $scope.selectedFeatures = jQuery.grep($scope.selectedFeatures,
+        function(selectedFeature) {
+          return selectedFeature.id != _feature.id;
+        }
+      );
+    } else {
+      $scope.selectedFeatures.push(_feature);
+    }
+    if (jQuery.isEmptyObject($scope.selectedDistrict)) {
+      $scope.selectedDistrict = getDistrictById($scope.selectedDistrictId);
+    }
+    console.log($scope.selectedFeatures);    
+    //$scope.loadPosition($scope.selectedDistrict, $scope.selectedSubCats);
+  }
+  
   $scope.predecate = function(subcat) {
     return subcat.name;
   }
   
-  $scope.loadPosition = function(district, subcats) {
-    console.log("district");
-    console.log(jQuery.isEmptyObject(district));
-    console.log("subcats");
-    console.log(subcats);
+  // features are optional
+  $scope.loadPosition = function(district, subcats, features) {
+    if (typeof features === "undefined") {
+      features = [];
+    }
     if ((typeof district === "undefined") || (jQuery.isEmptyObject(district)) || (subcats.length === 0)) {
       closeAllInfoWindows();
       clearAllMarkers();
@@ -95,14 +124,27 @@ function SelectionsCtrl($scope, $http) {
     });
     // make it an array with "," as delim
     subcatIds = subcatIds.join(",")
-    $http.get("/api/v1/get_places.json?district_id=" + district.id + "&sub_cat_ids=" + subcatIds + "&fields=name,address,id,city_id,phone").
+    
+    // build get_places url
+    var place_url = "/api/v1/get_places.json?district_id=" + district.id + "&sub_cat_ids=" + subcatIds + "&fields=name,address,id,city_id,phone";
+    
+    if (features.length > 0) {
+      var featureIds = [];
+      jQuery.each(features, function(index, value){
+        featureIds.push(features[index].id);
+      });
+      featureIds = featureIds.join(",");
+      if (featureIds.length > 0) {
+        place_url += ("feature_ids=" + featureIds);
+      }
+    }
+    
+    $http.get(place_url).
     success(function(placesData) {
       clearAllMarkers();
       if (placesData.length === 0) {
-        //jQuery("#notice-box").show();
         alert("No results!");
       } else {
-        //jQuery("#notice-box").hide();
         $scope.selectedPlaces = placesData;
         loadMap($scope.selectedPlaces, lat, lng, zoom);
       }
