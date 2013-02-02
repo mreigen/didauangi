@@ -56,3 +56,15 @@ body {
   float: right;
   margin-right: 0px;
 }
+
+.feature-checkbox {
+  width: 150px;
+  position: relative;
+  float: left;
+  padding-right: 10px;
+}
+
+#feature-selection {
+  margin: 0px -10px 0px 10px;
+  overflow: hidden;
+}

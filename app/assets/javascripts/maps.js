@@ -78,25 +78,30 @@ function createMarker(placeData, map) {
         console.log(data.results);
         return;
       }
-      
-      var lat = data.results[0].geometry.location.lat;
-      var lng = data.results[0].geometry.location.lng;
-      placePos = new google.maps.LatLng(lat,lng);
-      var marker = new google.maps.Marker({
-          position: placePos,
-          map: map,
-          draggable: true,
-          title: address,
-          type: 'point'
-      });
-      // add to the marker array
-      markerArray.push(marker);
-      
-      google.maps.event.addListener(marker, 'click', function() {
-        // close all the opened info windows
-        closeAllInfoWindows();
-        infowindow.open(map,marker);
-      }); 
+
+      setTimeout(function() {
+        
+        var lat = data.results[0].geometry.location.lat;
+        var lng = data.results[0].geometry.location.lng;
+        placePos = new google.maps.LatLng(lat,lng);
+
+        var marker = new google.maps.Marker({
+            position: placePos,
+            map: map,
+            draggable: true,
+            title: address,
+            type: 'point'
+        });
+        
+        // add to the marker array
+        markerArray.push(marker);
+        
+        google.maps.event.addListener(marker, 'click', function() {
+          // close all the opened info windows
+          closeAllInfoWindows();
+          infowindow.open(map,marker);
+        });
+      }, 500);
     }
   });
 }

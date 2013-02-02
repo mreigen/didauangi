@@ -46,9 +46,10 @@
           </div>
         </div>
       </div>
+      
       <div class="tab-content">
         <div id="feature-selection">
-          <label class="checkbox" ng-repeat="feature in features | orderBy:'name'">
+          <label class="checkbox feature-checkbox" ng-repeat="feature in features | orderBy:'name'">
           <input type="checkbox" id="{{feature.id}}" 
             value="{{feature.id}}" 
             ng-model="feature.checked"
