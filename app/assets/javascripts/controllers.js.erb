@@ -55,7 +55,6 @@ function SelectionsCtrl($scope, $http) {
   $scope.selectDistrict = function() {
     // set 'global' district var
     $scope.selectedDistrict = getDistrictById($scope.selectedDistrictId);
-    console.log($scope.selectedDistrict);
     $scope.loadPosition($scope.selectedDistrict, $scope.selectedSubCats);
   }
   
@@ -74,9 +73,6 @@ function SelectionsCtrl($scope, $http) {
       $scope.selectedDistrict = getDistrictById($scope.selectedDistrictId);
     }
     
-    console.log($scope.selectedSubCats);
-    console.log($scope.selectedDistrict);
-    
     $scope.loadPosition($scope.selectedDistrict, $scope.selectedSubCats);
   }
   
@@ -94,8 +90,8 @@ function SelectionsCtrl($scope, $http) {
     if (jQuery.isEmptyObject($scope.selectedDistrict)) {
       $scope.selectedDistrict = getDistrictById($scope.selectedDistrictId);
     }
-    console.log($scope.selectedFeatures);    
-    //$scope.loadPosition($scope.selectedDistrict, $scope.selectedSubCats);
+    console.log($scope.selectedFeatures);
+    $scope.loadPosition($scope.selectedDistrict, $scope.selectedSubCats, $scope.selectedFeatures);
   }
   
   $scope.predecate = function(subcat) {
@@ -135,7 +131,7 @@ function SelectionsCtrl($scope, $http) {
       });
       featureIds = featureIds.join(",");
       if (featureIds.length > 0) {
-        place_url += ("feature_ids=" + featureIds);
+        place_url += ("&feature_ids=" + featureIds);
       }
     }
     
@@ -150,6 +146,10 @@ function SelectionsCtrl($scope, $http) {
       }
     });
   }
+};
+
+var buildUrlForApi = function(apiName, options) {
+  
 };
 
 //DistrictsCtrl.$inject = ['Districts'];

@@ -73,6 +73,7 @@ function createMarker(placeData, map) {
     method: "get",
     url: "http://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&sensor=true",
     success: function(data) {
+      console.log(data);
       if (typeof data.results[0] === "undefined") {
         console.log("failed retrieving address:");
         console.log(data.results);
