@@ -57,6 +57,13 @@ body {
   margin-right: 0px;
 }
 
+.centered-button {
+  margin: 0 auto;
+  width: 400px;
+  text-align: center;
+  margin-top: 10px;
+}
+
 .feature-checkbox {
   width: 150px;
   position: relative;
@@ -65,6 +72,7 @@ body {
 }
 
 #feature-selection {
-  margin: 0px -10px 0px 10px;
+  margin: 5px -10px 10px 10px;
   overflow: hidden;
+  display: none;
 }

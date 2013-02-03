@@ -33,6 +33,8 @@ module Api
           else
             places.flatten!
             places = [places.to_a, _result.to_a].reduce(:&)
+            places = JSON.load places.to_json
+            places = places.select{|p| p["feature_id"] = f_id}
             respond_with [] and return if places.blank?
           end
         end

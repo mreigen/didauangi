@@ -122,7 +122,7 @@ function SelectionsCtrl($scope, $http) {
     subcatIds = subcatIds.join(",")
     
     // build get_places url
-    var place_url = "/api/v1/get_places.json?district_id=" + district.id + "&sub_cat_ids=" + subcatIds + "&fields=name,address,id,city_id,phone";
+    var place_url = "/api/v1/get_places.json?district_id=" + district.id + "&sub_cat_ids=" + subcatIds + "&fields=name,address,id,city_id,phone,feature_id";
     
     if (features.length > 0) {
       var featureIds = [];
@@ -137,12 +137,14 @@ function SelectionsCtrl($scope, $http) {
     
     $http.get(place_url).
     success(function(placesData) {
-      clearAllMarkers();
+      MapsCtrl.clearAllMarkers();
       if (placesData.length === 0) {
-        alert("No results!");
+        jQuery("#no-result-alert").show();
       } else {
+        //jQuery(".alert").alert("close");
+        jQuery("#no-result-alert").hide();
         $scope.selectedPlaces = placesData;
-        loadMap($scope.selectedPlaces, lat, lng, zoom);
+        MapsCtrl.loadMap($scope.selectedPlaces, lat, lng, zoom);
       }
     });
   }
@@ -150,6 +152,143 @@ function SelectionsCtrl($scope, $http) {
 
 var buildUrlForApi = function(apiName, options) {
   
+};
+
+var toggleFeaturePane = function() {
+  event.preventDefault();
+  jQuery("#feature-selection").toggle();
+  return false;
+};
+
+
+// MAPS CONTROLLER
+
+function MapsCtrl($scope) {
+  
+  $scope.placesData = [];
+  
+  MapsCtrl.loadMap = function(placesData, lat, long, zoomLevel) {
+    $scope.placesData = placesData;
+    
+    var mapOptions = {
+      //zoom: parseInt(zoomLevel),
+      zoom: 14,
+      center: new google.maps.LatLng(lat, long),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+    // creating markers
+    jQuery.each(placesData, function(index) {
+      createMarker(placesData[index], map);
+    });
+  }
+
+  var infoWindows = [];
+  var markerArray = [];
+
+  function closeAllInfoWindows() {
+    jQuery.each(infoWindows, function(index, value) {
+      infoWindows[index].close();
+    });
+  }
+
+  MapsCtrl.clearAllMarkers = function() {
+    jQuery.each(markerArray, function(index, value) {
+      markerArray[index].setMap(null);
+    });
+  }
+
+  function createMarker(placeData, map) {
+    $scope.placeData = placeData;
+    
+    var address = placeData.address;
+    var placeName = placeData.name;
+    var phone = placeData.phone;
+    var feature = placeData.feature_id
+    var placeId = placeData.id
+
+    var contentString = '<div id="content">'+
+        '<div id="siteNotice">'+
+        '</div>'+
+        '<h2 id="firstHeading" class="firstHeading">'+
+        '<a id="' + placeId + '" class="info-title" href="#myModal" data-toggle="modal">'+ placeName + '</a>' + 
+        '</h2>'+
+        '<div id="bodyContent">'+
+        '<p>' + address + '</p>'+
+        '<p> Phone: ' + phone+ '</p>'+
+        '</div>'+
+        '</div>';
+    
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+    // add to the info window array
+    infoWindows.push(infowindow);
+
+    // get place's lat and lng
+    jQuery.ajax({
+      method: "get",
+      url: "http://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&sensor=true",
+      success: function(data) {
+        console.log(data);
+        if (typeof data.results[0] === "undefined") {
+          console.log("failed retrieving address:");
+          console.log(data.results);
+          return;
+        }
+
+        setTimeout(function() {
+
+          var lat = data.results[0].geometry.location.lat;
+          var lng = data.results[0].geometry.location.lng;
+          placePos = new google.maps.LatLng(lat,lng);
+
+          var marker = new google.maps.Marker({
+              position: placePos,
+              map: map,
+              draggable: true,
+              title: address,
+              type: 'point',
+              data: placeData
+          });
+
+          // add to the marker array
+          markerArray.push(marker);
+
+          google.maps.event.addListener(marker, 'click', function() {
+            // close all the opened info windows
+            closeAllInfoWindows();
+            infowindow.open(map,marker);
+            
+            updatePlaceModal(marker.data);
+          });
+        }, 500);  
+      } // success
+    });
+  }
+  
+};
+
+function updatePlaceModal(placeData) {
+  var template ='<div>\
+  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\
+  <div class="modal-header">\
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>\
+  <h3 id="myModalLabel">{{name}}</h3>\
+  </div>\
+  <div class="modal-body">\
+  <p>One fine body…</p>\
+  </div>\
+  <div class="modal-footer">\
+  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>\
+  <button class="btn btn-primary">Save changes</button>\
+  </div>\
+  </div>\
+  </div>';
+
+  template = template.replace("{{name}}", placeData.name);
+  jQuery("#place-modal-wrapper").html(template);
 };
 
 //DistrictsCtrl.$inject = ['Districts'];

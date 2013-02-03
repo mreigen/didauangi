@@ -41,8 +41,8 @@
                 ng-click="selectSubCat(subcat)"> {{subcat.name}}
               </label>
           </div>
-          <div class="form-buttons-right">
-            <a href="#" class="btn btn-primary disabled">Tìm</a>
+          <div class="centered-button">
+            <a href="#" class="btn btn-link" onclick="toggleFeaturePane()">Thêm tính chất</a>
           </div>
         </div>
       </div>
@@ -58,11 +58,24 @@
         </div>
       </div>
     </div>
+    <div id="no-result-alert" class="alert alert-error" style="display: none;">
+      Xin lỗi, chúng tôi <strong>không tìm thấy kết quả</strong>. Xin bạn vui lòng chọn lại.
+    </div>
+    
   </div>
 
   <div id="map_canvas" style="width: 900px; height: 450px"></div>
   
 </div>
+
+<div ng-controller="MapsCtrl">
+    
+    <div id="place-modal-wrapper">
+      
+    </div>
+    
+</div>
+
 <script type="text/javascript">
   window.onload = loadScript;
 </script>
