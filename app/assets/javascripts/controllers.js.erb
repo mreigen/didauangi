@@ -104,8 +104,8 @@ function SelectionsCtrl($scope, $http) {
       features = [];
     }
     if ((typeof district === "undefined") || (jQuery.isEmptyObject(district)) || (subcats.length === 0)) {
-      closeAllInfoWindows();
-      clearAllMarkers();
+      MapsCtrl.closeAllInfoWindows();
+      MapsCtrl.clearAllMarkers();
       return;
     }
     // get district's info
@@ -187,7 +187,7 @@ function MapsCtrl($scope) {
   var infoWindows = [];
   var markerArray = [];
 
-  function closeAllInfoWindows() {
+  MapsCtrl.closeAllInfoWindows = function() {
     jQuery.each(infoWindows, function(index, value) {
       infoWindows[index].close();
     });
@@ -258,7 +258,7 @@ function MapsCtrl($scope) {
 
           google.maps.event.addListener(marker, 'click', function() {
             // close all the opened info windows
-            closeAllInfoWindows();
+            MapsCtrl.closeAllInfoWindows();
             infowindow.open(map,marker);
             
             updatePlaceModal(marker.data);
