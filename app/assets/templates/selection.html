@@ -1,25 +1,27 @@
 <div ng-controller="SelectionsCtrl">
   <div id="location-selection">
-    <div id="location-cities">
-      Chọn Thành Phố
-      <br/>
-      <select id="cities">
-        <option>Đà Lạt</option>
-        <option>Đà Nẵng</option>
-        <option>Hà Nội</option>
-        <option selected>Hồ Chí Minh (Sài Gòn)</option>
-        <option>Huế</option>
-        <option>Vũng Tàu</option>
-      </select>
-    </div>
-    <div id="location-districts">
-      Chọn Quận
-      <br/>
-      <select ng:model="selectedDistrictId" 
-        ng:options="d.id as d.name for d in districts | orderBy:'name'" 
-        ng-init="selectedDistrictId=2" 
-        ng-change="selectDistrict()">
-      </select>
+    <div id="inputs">
+      <div id="location-cities">
+        Chọn Thành Phố
+        <br/>
+        <select id="cities">
+          <option>Đà Lạt</option>
+          <option>Đà Nẵng</option>
+          <option>Hà Nội</option>
+          <option selected>Hồ Chí Minh (Sài Gòn)</option>
+          <option>Huế</option>
+          <option>Vũng Tàu</option>
+        </select>
+      </div>
+      <div id="location-districts">
+        Chọn Quận
+        <br/>
+        <select ng:model="selectedDistrictId" 
+          ng:options="d.id as d.name for d in districts | orderBy:'name'" 
+          ng-init="selectedDistrictId=2" 
+          ng-change="selectDistrict()">
+        </select>
+      </div>
     </div>
   </div>
 
