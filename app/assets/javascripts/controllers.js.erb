@@ -196,9 +196,18 @@ function MapsCtrl($scope) {
   MapsCtrl.clearAllMarkers = function() {
     jQuery.each(markerArray, function(index, value) {
       markerArray[index].setMap(null);
+      $scope.placesData = [];
     });
   }
 
+  MapsCtrl.setScopePlaceData = function(data) {
+    // use $aaply here so that angularjs knows about the changes
+    // another frakking angular magic
+    $scope.$apply(function() {
+      $scope.placeData = data;
+    });
+  }
+  
   function createMarker(placeData, map) {
     $scope.placeData = placeData;
     
@@ -261,11 +270,7 @@ function MapsCtrl($scope) {
             MapsCtrl.closeAllInfoWindows();
             infowindow.open(map,marker);
             
-            // use $aaply here so that angularjs knows about the changes
-            // another frakking angular magic
-            $scope.$apply(function() {
-              $scope.placeData = marker.data;
-            });
+            setScopePlaceData(marker.data);
           });
         }, 1000);
       } // success

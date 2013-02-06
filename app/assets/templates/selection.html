@@ -64,17 +64,39 @@
     
   </div>
 
-  <div id="map_canvas" style="width: 900px; height: 450px"></div>
-  
 </div>
 
 <div ng-controller="MapsCtrl">
-    <div id="place-modal-wrapper">
-      <div ng-include src="'/assets/place-modal.html'">
-      </div>
-    </div>
-</div>
+  
+  <div id="map_canvas" style="width: 600px; height: 450px"></div>
 
-<script type="text/javascript">
-  window.onload = loadScript;
-</script>
+  <div id="place-list" style="height: 450px; overflow: auto;">
+    <table id="place-table" class="table">
+      <tr ng-repeat="place in placesData">
+        <td width=50>
+          <img src="http://s3-media1.ak.yelpcdn.com/bphoto/nclzvmCZDFzT-AefBnYeww/ms.jpg"
+          width=50
+          />
+        </td>
+        <td>
+          <div>
+            <a class="place-name-link" href="#myModal" data-toggle="modal"
+            onclick="javascript:MapsCtrl.setScopePlaceData({{place}});">{{place.name}}</a>
+          </div>
+          <div>{{place.address}}</div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  <div id="place-modal-wrapper">
+    <div ng-include src="'/assets/place-modal.html'">
+    </div>
+  </div>
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function() {
+    jQuery('#place-list').scroll();
+  });
+  </script>
+</div>

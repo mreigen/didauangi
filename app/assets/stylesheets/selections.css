@@ -10,6 +10,7 @@ body {
   padding: 20px;
   border-radius: 4px;
   box-shadow: 0px 0px 9px 0px #ddd;
+  overflow: hidden;
 }
 
 .tab-pane {
@@ -75,4 +76,19 @@ body {
   margin: 5px -10px 10px 10px;
   overflow: hidden;
   display: none;
+}
+
+#place-list {
+  position: relative;
+  float: right;
+  width: 300px;
+  min-height: 450px;
+}
+
+#place-table {
+  
+}
+
+#map_canvas {
+  float: left;
 }
