@@ -84,7 +84,7 @@ body {
 #feature-selection {
   margin: 5px -10px 10px 10px;
   overflow: hidden;
-  display: ease-in-out;
+  display: none;
 }
 
 #place-list {
