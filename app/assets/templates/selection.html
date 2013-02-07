@@ -75,13 +75,18 @@
   <div id="place-list" style="height: 450px; overflow: auto;">
     <table id="place-table" class="table">
       <tr ng-repeat="place in placesData">
-        <td width=50>
+        <td width=30 style="padding-right: 0px;">
+          <img src="{{place.iconUrl}}"/>
+        </td>
+        <td width=50 style="padding: 8px 0px 8px 0px;">
           <img src="http://s3-media1.ak.yelpcdn.com/bphoto/nclzvmCZDFzT-AefBnYeww/ms.jpg"
           width=50
           />
         </td>
         <td>
-          <div>
+          <div
+          onmouseover="MapsCtrl.highlightMarker({{place.index}})" 
+          onmouseout="MapsCtrl.unhighlightMarker({{place.index}})">
             <a class="place-name-link" href="#myModal" data-toggle="modal"
             onclick="javascript:MapsCtrl.setScopePlaceData({{place}});">{{place.name}}</a>
           </div>

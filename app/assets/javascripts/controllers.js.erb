@@ -180,6 +180,9 @@ function MapsCtrl($scope) {
 
     // creating markers
     jQuery.each(placesData, function(index) {
+      var iconUrl = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter_withshadow&chld=' + (index + 1) + '|99C7FF|000000';
+      placesData[index].iconUrl = iconUrl;
+      placesData[index].index = index;
       createMarker(placesData[index], map);
     });
   }
@@ -208,15 +211,48 @@ function MapsCtrl($scope) {
     });
   }
   
+  $scope.oldIcon = "";
+  
+  // for onmouseover
+  MapsCtrl.highlightMarker = function(index) {
+    var marker = findMarkerByIndex(index);
+    if (marker) {
+      $scope.oldIcon = marker.icon;
+      var icon = 'https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.7|0|AA0000|16|b|' + (index + 1) + '&chem=y;s=cm_size;ds=0;dp=1;d=maps_pin,0,10,30,10,8F8,000,rb-0-0&chls=3|3';
+      marker.setIcon(icon);
+    }
+  }
+  
+  // for onmouseout
+  MapsCtrl.unhighlightMarker = function(index) {
+    if ($scope.oldIcon === "") {
+      return false;
+    }
+    var marker = findMarkerByIndex(index);
+    if (marker) {
+      marker.setIcon($scope.oldIcon);
+    }
+  }
+  
+  function findMarkerByIndex(index) {
+    for (var i=0; i < markerArray.length; i++) {
+      if (markerArray[i].data.index === index) {
+        return markerArray[i];
+      }
+    }
+    return null;
+  }
+  
   function createMarker(placeData, map) {
     $scope.placeData = placeData;
     
     var address = placeData.address;
     var placeName = placeData.name;
     var phone = placeData.phone;
-    var feature = placeData.feature_id
-    var placeId = placeData.id
-
+    var feature = placeData.feature_id;
+    var placeId = placeData.id;
+    var iconUrl = placeData.iconUrl;
+    
     var contentString = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
@@ -237,7 +273,9 @@ function MapsCtrl($scope) {
 
     // get place's lat and lng
     jQuery.ajax({
-      method: "get",
+      type: "get",
+      timeout: 1000,
+      async: false,
       url: "http://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&sensor=true",
       success: function(data) {
         console.log(data);
@@ -247,32 +285,31 @@ function MapsCtrl($scope) {
           return;
         }
 
-        setTimeout(function() {
+        var lat = data.results[0].geometry.location.lat;
+        var lng = data.results[0].geometry.location.lng;
+        placePos = new google.maps.LatLng(lat,lng);
+        
+        var marker = new google.maps.Marker({
+            position: placePos,
+            map: map,
+            draggable: true,
+            title: placeName,
+            type: 'point',
+            icon: iconUrl,
+            data: placeData
+        });
 
-          var lat = data.results[0].geometry.location.lat;
-          var lng = data.results[0].geometry.location.lng;
-          placePos = new google.maps.LatLng(lat,lng);
+        // add to the marker array
+        markerArray.push(marker);
 
-          var marker = new google.maps.Marker({
-              position: placePos,
-              map: map,
-              draggable: true,
-              title: address,
-              type: 'point',
-              data: placeData
-          });
+        google.maps.event.addListener(marker, 'click', function() {
+          // close all the opened info windows
+          MapsCtrl.closeAllInfoWindows();
+          infowindow.open(map,marker);
+          
+          setScopePlaceData(marker.data);
+        });
 
-          // add to the marker array
-          markerArray.push(marker);
-
-          google.maps.event.addListener(marker, 'click', function() {
-            // close all the opened info windows
-            MapsCtrl.closeAllInfoWindows();
-            infowindow.open(map,marker);
-            
-            setScopePlaceData(marker.data);
-          });
-        }, 1000);
       } // success
     });
   }
