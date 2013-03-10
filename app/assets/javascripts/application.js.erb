@@ -1,8 +1,8 @@
 //= require controllers
-//= require maps
+//= require plugins/jquery.rating
 
 angular.module("didauangi",[]).
 config(["$routeProvider", function($routeProvider) {
-  $routeProvider.when("/", {templateUrl: "<%= asset_path('selection.html') %>", controller: SelectionsCtrl}).
+  $routeProvider.when("/", {templateUrl: "<%= asset_path('selection-scroll.html') %>", controller: SelectionsCtrl}).
   otherwise({redirectTo: "/"});
 }]);

@@ -33,6 +33,7 @@ body {
   box-shadow: 0px 0px 8px #888;
   width: 100%;
   left: 0px;
+  z-index: 999;
 }
 
 #location-selection #inputs {
@@ -104,6 +105,62 @@ body {
   float: left;
 }
 
+div.place-name {
+  
+}
+
+#place-list div.place-address {
+  font-size: 11px;
+  width: 260px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.place-list div.place-info {
+  line-height: 0.5em;
+}
+
+/**
+ For place list FULL as opposed to half map half list
+**/
+
+#place-list-full {
+  width: 650px;
+  border: 1px solid #eee;
+  padding: 5px;
+}
+
+#place-list-full .place-item div {
+  position: relative;
+  float: left;
+}
+
+#place-list-full .place-item {
+  width: 100%;
+  height: 120px;
+}
+
+#place-list-full .place-item-middle {
+  width: 400px;
+}
+
+#place-list-full .place-item .place-image {
+  padding: 5px;
+  width: 100px;
+  height: 100px;
+}
+
+#place-list-full .place-item .place-name {
+  width: 100%;
+}
+
+#place-list-full .place-item .place-address {
+  width: 100%;
+}
+
+/**
+ MODAL
+**/
 .modal.fade{
   -webkit-transition: opacity .01s ease-in-out;
   -moz-transition: opacity .01s ease-in-out;

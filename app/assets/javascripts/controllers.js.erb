@@ -144,6 +144,7 @@ function SelectionsCtrl($scope, $http) {
         //jQuery(".alert").alert("close");
         jQuery("#no-result-alert").hide();
         $scope.selectedPlaces = placesData;
+        
         MapsCtrl.loadMap($scope.selectedPlaces, lat, lng, zoom);
       }
     });
@@ -169,7 +170,7 @@ function MapsCtrl($scope) {
   
   MapsCtrl.loadMap = function(placesData, lat, long, zoomLevel) {
     $scope.placesData = placesData;
-    
+    /*
     var mapOptions = {
       //zoom: parseInt(zoomLevel),
       zoom: 14,
@@ -185,6 +186,7 @@ function MapsCtrl($scope) {
       placesData[index].index = index;
       createMarker(placesData[index], map);
     });
+    */
   }
 
   var infoWindows = [];

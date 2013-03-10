@@ -69,36 +69,31 @@
 </div>
 
 <div ng-controller="MapsCtrl">
-  
-  <div id="map_canvas" style="width: 500px; height: 450px"></div>
-
-  <div id="place-list" style="height: 450px; overflow: auto;">
-    <table id="place-table" class="table">
-      <tr ng-repeat="place in placesData">
-        <td width=30 style="padding-right: 0px;">
-          <img src="{{place.iconUrl}}"/>
-        </td>
-        <td width=50 style="padding: 8px 0px 8px 0px;">
-          <img src="http://s3-media1.ak.yelpcdn.com/bphoto/nclzvmCZDFzT-AefBnYeww/ms.jpg"
-          width=50
-          />
-        </td>
-        <td
-        onmouseover="MapsCtrl.highlightMarker({{place.index}})" 
-        onmouseout="MapsCtrl.unhighlightMarker({{place.index}})">
-          <div class="place-name place-info">
-            <a class="place-name-link" href="#myModal" data-toggle="modal"
-            onclick="javascript:MapsCtrl.setScopePlaceData({{place}});">{{place.name}}</a>
-          </div>
-          <div class="place-address place-info">{{place.address}}</div>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="3">
-          Load more...
-        </td>
-      </tr>
-    </table>
+  <div id="place-list-full">
+    <div ng-repeat="place in placesData" class="place-item">
+      <div class="place-image">
+        <img src="http://s3-media1.ak.yelpcdn.com/bphoto/nclzvmCZDFzT-AefBnYeww/ms.jpg"
+        width=100
+        />
+      </div>
+      <div class="place-item-middle">
+        <div class="place-name">
+          <a class="place-name-link" href="#myModal" data-toggle="modal"
+          onclick="javascript:MapsCtrl.setScopePlaceData({{place}});">{{place.name}}</a>
+        </div>
+        <div class="place-address">
+          {{place.address}}
+        </div>
+      </div> <!-- place-item-middle -->
+      
+      <div class="place-item-right">
+        <input name="star1" type="radio" class="star" disabled="disabled"/>
+        <input name="star1" type="radio" class="star" disabled="disabled"/>
+        <input name="star1" type="radio" class="star" disabled="disabled" checked="checked"/>
+        <input name="star1" type="radio" class="star" disabled="disabled"/>
+        <input name="star1" type="radio" class="star" disabled="disabled"/>
+      </div>
+    </div>
   </div>
   
   <div id="place-modal-wrapper">
@@ -107,8 +102,8 @@
   </div>
   
   <script type="text/javascript">
-  jQuery(document).ready(function() {
-    jQuery('#place-list').scroll();
-  });
+    jQuery(document).ready(function() {
+      jQuery(".star").rating();
+    });
   </script>
 </div>
