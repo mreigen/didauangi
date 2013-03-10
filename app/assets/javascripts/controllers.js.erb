@@ -271,14 +271,48 @@ function MapsCtrl($scope) {
     // add to the info window array
     infoWindows.push(infowindow);
 
+    var geocoder = new google.maps.Geocoder();
+    var geocoderRequest = { address: address };
+    geocoder.geocode(geocoderRequest, function(results, status){
+      if (status !== "OK") {
+        return false;
+      }
+      var lat = results[0].geometry.location.ib;
+      var lng = results[0].geometry.location.jb;
+      placePos = new google.maps.LatLng(lat,lng);
+      
+      var marker = new google.maps.Marker({
+          position: placePos,
+          map: map,
+          draggable: false,
+          title: placeName,
+          type: 'point',
+          icon: iconUrl,
+          data: placeData
+      });
+
+      // add to the marker array
+      markerArray.push(marker);
+
+      google.maps.event.addListener(marker, 'click', function() {
+        // close all the opened info windows
+        MapsCtrl.closeAllInfoWindows();
+        infowindow.open(map,marker);
+        
+        MapsCtrl.setScopePlaceData(marker.data);
+      });
+      
+    });
+    
     // get place's lat and lng
+    /*
     jQuery.ajax({
       type: "get",
       timeout: 1000,
       async: false,
       url: "http://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&sensor=true",
       success: function(data) {
-        console.log(data);
+        //console.log(data);
         if (typeof data.results[0] === "undefined") {
           console.log("failed retrieving address:");
           console.log(data.results);
@@ -312,6 +346,7 @@ function MapsCtrl($scope) {
 
       } // success
     });
+    */
   }
   
 };

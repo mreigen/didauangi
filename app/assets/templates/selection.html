@@ -70,7 +70,7 @@
 
 <div ng-controller="MapsCtrl">
   
-  <div id="map_canvas" style="width: 600px; height: 450px"></div>
+  <div id="map_canvas" style="width: 500px; height: 450px"></div>
 
   <div id="place-list" style="height: 450px; overflow: auto;">
     <table id="place-table" class="table">
@@ -83,14 +83,19 @@
           width=50
           />
         </td>
-        <td>
-          <div
-          onmouseover="MapsCtrl.highlightMarker({{place.index}})" 
-          onmouseout="MapsCtrl.unhighlightMarker({{place.index}})">
+        <td
+        onmouseover="MapsCtrl.highlightMarker({{place.index}})" 
+        onmouseout="MapsCtrl.unhighlightMarker({{place.index}})">
+          <div>
             <a class="place-name-link" href="#myModal" data-toggle="modal"
             onclick="javascript:MapsCtrl.setScopePlaceData({{place}});">{{place.name}}</a>
           </div>
           <div>{{place.address}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          Load more...
         </td>
       </tr>
     </table>
